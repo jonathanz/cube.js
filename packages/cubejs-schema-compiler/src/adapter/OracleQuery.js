@@ -30,9 +30,12 @@ export class OracleQuery extends BaseQuery {
    * "LIMIT" on Oracle it's illegal
    */
   groupByDimensionLimit() {
+    /*
     const limitClause = this.rowLimit === null ? '' : ` FETCH NEXT ${this.rowLimit && parseInt(this.rowLimit, 10) || 10000} ROWS ONLY`;
     const offsetClause = this.offset ? ` OFFSET ${parseInt(this.offset, 10)} ROWS` : '';
     return `${offsetClause}${limitClause}`;
+    //*/
+    return '';
   }
 
   /**
@@ -92,7 +95,9 @@ export class OracleQuery extends BaseQuery {
     // eslint-disable-next-line quotes
     return `((cast (systimestamp at time zone 'UTC' as date) - date '1970-01-01') * 86400)`;
   }
-
+  everyRefreshKeySql(refreshKey) {
+    return super.everyRefreshKeySql(refreshKey) + ' from dual'
+  }
   preAggregationTableName(cube, preAggregationName, skipSchema) {
     const name = super.preAggregationTableName(cube, preAggregationName, skipSchema);
     if (name.length > 128) {

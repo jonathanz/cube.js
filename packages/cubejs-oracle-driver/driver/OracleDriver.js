@@ -1,6 +1,7 @@
 const { BaseDriver } = require('@cubejs-backend/query-orchestrator');
 const oracledb = require('oracledb');
 const { reduce } = require('ramda');
+(process.env.CUBEJS_ORACLE_LIB_DIR != null && process.env.CUBEJS_ORACLE_LIB_DIR.length>0) && (oracledb.initOracleClient({libDir: process.env.CUBEJS_ORACLE_LIB_DIR}));
 
 const sortByKeys = (unordered) => {
   const ordered = {};
